@@ -7,43 +7,50 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
+  static const String _title = "Quiz App";
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.pink,
+        primarySwatch: Colors.pink
       ),
-      home: const soru_ekran(title: 'Flutter Demo Home Page'),
+      title: _title,
+      home: Scaffold(
+        appBar: AppBar(title: const Text(_title),),
+        body: const MainScreen(),
+      )
     );
   }
 }
 
-class soru_ekran extends StatefulWidget {
-  const soru_ekran({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<soru_ekran> createState() => _soru_ekranState();
-}
-
-class _soru_ekranState extends State<soru_ekran> {
+class MainScreen extends StatelessWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blue,
-      child: Center(
+    return Center(
+      child: Card(
         child: Column(
-          children: [
-            ListView.builder(itemBuilder: (BuildContext context, int index) {
-              return ListTile(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            const ListTile(
+              leading: Icon(Icons.looks_one_rounded),
+              title: Text("Which is better"),
+              subtitle: Text("You have 3 minutes"),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(onPressed: (){
 
-              );
-            },)
+                }, child: const Text("Puma")),
+
+                TextButton(onPressed: (){
+
+                }, child: const Text("Lion"))
+              ],
+            )
           ],
         ),
       ),
