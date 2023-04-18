@@ -10,11 +10,12 @@ class Quiz extends StatefulWidget {
 
 class _QuizState extends State<Quiz> {
   final List<Question>_myQuestion = myQuestions();
-  int currentQuestionIndex = 0;
   bool isCorrect = false;
   bool isSelected = false;
   Answer answer = Answer("1963", true);
   Answer answer2 = Answer("1955", false);
+  ValueNotifier<int> currentQuestionIndex = ValueNotifier<int>(0);
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +37,14 @@ class _QuizState extends State<Quiz> {
   questionWidget() {
     return Column(
      children: [
-       Text(
-         "Question ${currentQuestionIndex+1}/${_myQuestion.length.toString()}",
-         style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600),
+       ValueListenableBuilder<int>(
+         valueListenable: currentQuestionIndex,
+         builder: (context, questionIndex, child) {
+           return Text(
+             "Question '${questionIndex+1}'/'${_myQuestion.length}'",
+             style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600),
+           );
+         }
        ),
        const SizedBox(height: 20,),
        Container(
@@ -53,7 +59,12 @@ class _QuizState extends State<Quiz> {
            ),
            ]
          ),
-         child: Text(_myQuestion[currentQuestionIndex].questionText),
+         child: ValueListenableBuilder<int>(
+           valueListenable: currentQuestionIndex,
+           builder: (context, questionIndex, child) {
+             return Text(_myQuestion[questionIndex].questionText);
+           }
+         ),
        )
      ],
 
@@ -74,16 +85,8 @@ class _QuizState extends State<Quiz> {
                 ),
               backgroundColor: MaterialStateProperty.all(Colors.pink),
             ),
-              onPressed: (){
-            if (currentQuestionIndex >= _myQuestion.length - 1) {
-              currentQuestionIndex = 0;
-            } else {
-              currentQuestionIndex += 1;
-            }
-            setState(() {
-              isCorrect = true;
-            });
-          }, child: Text(answer.answerText,style: const TextStyle(color: Colors.black),)),
+              onPressed: (){},
+              child: Text(answer.answerText,style: const TextStyle(color: Colors.black),)),
         ),
         const SizedBox(
           height: 10,
@@ -101,9 +104,9 @@ class _QuizState extends State<Quiz> {
               ),
               onPressed: (){
             isCorrect = false;
-            currentQuestionIndex = currentQuestionIndex;
+            currentQuestionIndex.value = 1;
           }, child: Text(answer2.answerText,
-            style: TextStyle(color: Colors.black),)),
+            style: const TextStyle(color: Colors.black),)),
         )
       ],
     );
