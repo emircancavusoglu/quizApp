@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'question_model.dart';
+import 'package:denemeyoutube/question_model.dart';
 
 class Quiz extends StatefulWidget {
   Quiz({Key? key}) : super(key: key);
@@ -12,24 +12,24 @@ class _QuizState extends State<Quiz> {
   final List<Question>_myQuestion = myQuestions();
   bool isCorrect = false;
   bool isSelected = false;
-  Answer answer = Answer("1963", true);
-  Answer answer2 = Answer("1955", false);
   ValueNotifier<int> currentQuestionIndex = ValueNotifier<int>(0);
-
+  ValueNotifier<int> currentAnswerIndex = ValueNotifier<int>(0);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 35),
-      child: Column(
-        children: [
-          const Text("Welcome to Quiz App",
-            style: TextStyle(fontSize: 24,color: Colors.black,fontWeight: FontWeight.w400),
-          ),
-          questionWidget(),
-          const SizedBox(height: 10,),
-          answerList(),
-        ],
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 180),
+        child: Column(
+          children: [
+            const Text("Welcome to Quiz App",
+              style: TextStyle(fontSize: 24,color: Colors.blue,fontWeight: FontWeight.w500),
+            ),
+            questionWidget(),
+            const SizedBox(height: 10,),
+            answerList(),
+          ],
+        ),
       ),
     );
   }
@@ -41,8 +41,8 @@ class _QuizState extends State<Quiz> {
          valueListenable: currentQuestionIndex,
          builder: (context, questionIndex, child) {
            return Text(
-             "Question '${questionIndex+1}'/'${_myQuestion.length}'",
-             style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600),
+             "Question ${questionIndex+1}/${_myQuestion.length}",
+             style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color: Colors.red),
            );
          }
        ),
@@ -62,7 +62,8 @@ class _QuizState extends State<Quiz> {
          child: ValueListenableBuilder<int>(
            valueListenable: currentQuestionIndex,
            builder: (context, questionIndex, child) {
-             return Text(_myQuestion[questionIndex].questionText);
+             return Text(_myQuestion[questionIndex].questionText,
+               style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 20),);
            }
          ),
        )
@@ -85,8 +86,26 @@ class _QuizState extends State<Quiz> {
                 ),
               backgroundColor: MaterialStateProperty.all(Colors.pink),
             ),
-              onPressed: (){},
-              child: Text(answer.answerText,style: const TextStyle(color: Colors.black),)),
+              onPressed: (){
+              if(currentQuestionIndex.value <_myQuestion.length-1 &&
+                  currentAnswerIndex.value < _myQuestion.length
+              )
+              {
+                currentQuestionIndex.value += 1;
+                currentAnswerIndex.value += 1;
+              }
+              else{
+                currentQuestionIndex.value = 0;
+                currentAnswerIndex.value = 0;
+              }},
+              child: ValueListenableBuilder<int>(
+                valueListenable: currentAnswerIndex,
+                builder: (context, answerIndex, child) {
+                  return Text(
+                    _myQuestion[currentQuestionIndex.value].answersList[0].answerText,
+                    style: const TextStyle(color: Colors.black),);
+                }
+              )),
         ),
         const SizedBox(
           height: 10,
@@ -103,14 +122,25 @@ class _QuizState extends State<Quiz> {
                 backgroundColor: MaterialStateProperty.all(Colors.pink)
               ),
               onPressed: (){
-            isCorrect = false;
-            currentQuestionIndex.value = 1;
-          }, child: Text(answer2.answerText,
-            style: const TextStyle(color: Colors.black),)),
+                if(currentQuestionIndex.value <_myQuestion.length-1 &&
+                    currentAnswerIndex.value < _myQuestion.length){
+                  currentQuestionIndex.value += 1;
+                  currentAnswerIndex.value += 1;
+                }
+
+          }, child: ValueListenableBuilder<int>(
+            valueListenable: currentAnswerIndex,
+            builder: (context, answerIndex, child) {
+              return Text(
+              _myQuestion[currentQuestionIndex.value].answersList[1].answerText,
+                style: const TextStyle(color: Colors.black),
+              );
+            }
+          )
+          ),
         )
       ],
     );
-
   }
 }
 
