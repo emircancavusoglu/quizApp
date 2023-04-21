@@ -10,7 +10,7 @@ class Question{
 
 class Answer{
   final String answerText;
-  final bool isCorrect;
+  bool isCorrect;
 
   Answer(this.answerText, this.isCorrect);
 }

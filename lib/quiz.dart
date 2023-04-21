@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:denemeyoutube/question_model.dart';
+import 'question_model.dart';
 
 class Quiz extends StatefulWidget {
-  Quiz({Key? key}) : super(key: key);
+  const Quiz({Key? key}) : super(key: key);
 
   @override
   State<Quiz> createState() => _QuizState();
@@ -10,10 +10,21 @@ class Quiz extends StatefulWidget {
 
 class _QuizState extends State<Quiz> {
   final List<Question>_myQuestion = myQuestions();
-  bool isCorrect = false;
-  bool isSelected = false;
+  ValueNotifier<int>point = ValueNotifier<int>(0);
   ValueNotifier<int> currentQuestionIndex = ValueNotifier<int>(0);
   ValueNotifier<int> currentAnswerIndex = ValueNotifier<int>(0);
+
+  @override
+  void initState(){
+    super.initState();
+    currentQuestionIndex.addListener(() {
+      incrementPoint();
+    });
+  }
+
+  void incrementPoint(){
+    point.value += 5;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +39,14 @@ class _QuizState extends State<Quiz> {
             questionWidget(),
             const SizedBox(height: 10,),
             answerList(),
+            const SizedBox(height: 20,),
+            ValueListenableBuilder<int>(
+              valueListenable: point,
+              builder: (context, _point, _) {
+                return Text("Puan : $_point",style: const TextStyle(
+                    fontSize: 24,fontWeight: FontWeight.w500,color: Colors.indigo),);
+              }
+            ),
           ],
         ),
       ),
@@ -72,7 +91,7 @@ class _QuizState extends State<Quiz> {
     );
   }
 
-  answerList() {
+  Widget answerList() {
     return Column(
       children: [
         SizedBox(
@@ -93,6 +112,7 @@ class _QuizState extends State<Quiz> {
               {
                 currentQuestionIndex.value += 1;
                 currentAnswerIndex.value += 1;
+
               }
               else{
                 currentQuestionIndex.value = 0;
@@ -126,6 +146,7 @@ class _QuizState extends State<Quiz> {
                     currentAnswerIndex.value < _myQuestion.length){
                   currentQuestionIndex.value += 1;
                   currentAnswerIndex.value += 1;
+                  incrementPoint();
                 }
 
           }, child: ValueListenableBuilder<int>(
@@ -142,5 +163,5 @@ class _QuizState extends State<Quiz> {
       ],
     );
   }
-}
+  }
 
