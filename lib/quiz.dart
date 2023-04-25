@@ -14,17 +14,15 @@ class _QuizState extends State<Quiz> {
   ValueNotifier<int> currentQuestionIndex = ValueNotifier<int>(0);
   ValueNotifier<int> currentAnswerIndex = ValueNotifier<int>(0);
 
-  @override
-  void initState(){
-    super.initState();
-    currentQuestionIndex.addListener(() {
-      incrementPoint();
-    });
-  }
 
-  void incrementPoint(){
-    point.value += 5;
-  }
+  void incrementPoint(int selected) {
+    bool correctAnswer = _myQuestion[currentQuestionIndex.value].answersList[selected]
+            .isCorrect;
+    if (correctAnswer) {
+      point.value++;
+    }
+    currentAnswerIndex.value = selected;
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -105,19 +103,19 @@ class _QuizState extends State<Quiz> {
                 ),
               backgroundColor: MaterialStateProperty.all(Colors.pink),
             ),
-              onPressed: (){
-              if(currentQuestionIndex.value <_myQuestion.length-1 &&
-                  currentAnswerIndex.value < _myQuestion.length
-              )
-              {
-                currentQuestionIndex.value += 1;
-                currentAnswerIndex.value += 1;
-
+              onPressed: () {
+              incrementPoint(0);
+              if(_myQuestion.length-1 > currentQuestionIndex.value&&
+              currentAnswerIndex.value < _myQuestion.length
+              ){
+                currentQuestionIndex.value++;
+                currentAnswerIndex.value++;
               }
               else{
-                currentQuestionIndex.value = 0;
                 currentAnswerIndex.value = 0;
-              }},
+                currentQuestionIndex.value= 0;
+              }
+              },
               child: ValueListenableBuilder<int>(
                 valueListenable: currentAnswerIndex,
                 builder: (context, answerIndex, child) {
@@ -141,15 +139,21 @@ class _QuizState extends State<Quiz> {
                 ),
                 backgroundColor: MaterialStateProperty.all(Colors.pink)
               ),
-              onPressed: (){
-                if(currentQuestionIndex.value <_myQuestion.length-1 &&
-                    currentAnswerIndex.value < _myQuestion.length){
-                  currentQuestionIndex.value += 1;
-                  currentAnswerIndex.value += 1;
-                  incrementPoint();
+              onPressed: () {
+                incrementPoint(1);
+                if(_myQuestion.length-1 > currentQuestionIndex.value&&
+                    currentAnswerIndex.value < _myQuestion.length
+                ){
+                  currentQuestionIndex.value++;
+                  currentAnswerIndex.value++;
+                }
+                else{
+                  currentAnswerIndex.value = 0;
+                  currentQuestionIndex.value= 0;
                 }
 
-          }, child: ValueListenableBuilder<int>(
+              },
+              child: ValueListenableBuilder<int>(
             valueListenable: currentAnswerIndex,
             builder: (context, answerIndex, child) {
               return Text(

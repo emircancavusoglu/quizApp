@@ -21,8 +21,8 @@ List<Question>myQuestions(){
   list.add(
     Question("Pirinç hangi ürünün kabuğunun soyulması ile elde edilir?",
       [
-        Answer("Çeltik", true),
         Answer("Yulaf", false),
+        Answer("Çeltik", true),
 
       ],)
   );
