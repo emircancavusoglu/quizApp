@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'question_model.dart';
+import 'endScreen.dart';
 
 class Quiz extends StatefulWidget {
   const Quiz({Key? key}) : super(key: key);
@@ -10,7 +12,7 @@ class Quiz extends StatefulWidget {
 
 class _QuizState extends State<Quiz> {
   final List<Question>_myQuestion = myQuestions();
-  ValueNotifier<int>point = ValueNotifier<int>(0);
+  final ValueNotifier<int>point = ValueNotifier<int>(0);
   ValueNotifier<int> currentQuestionIndex = ValueNotifier<int>(0);
   ValueNotifier<int> currentAnswerIndex = ValueNotifier<int>(0);
 
@@ -110,11 +112,29 @@ class _QuizState extends State<Quiz> {
               ){
                 currentQuestionIndex.value++;
                 currentAnswerIndex.value++;
-              }
-              else{
-                currentAnswerIndex.value = 0;
-                currentQuestionIndex.value= 0;
-              }
+              }else{
+              showDialog(
+                  context: context,
+                  builder: (context) => CupertinoAlertDialog(
+                title: Text("Congratulations! Your Point : ${point.value}"),
+                content: const Text("Do you want to continue ? "),
+                actions: [
+                  CupertinoDialogAction(child: TextButton(onPressed: (){
+                    currentQuestionIndex.value = 0;
+                    currentAnswerIndex.value += 1;
+                    point.value = 0;
+                    Navigator.of(context).pop();
+                  }, child: const Text("Yes"),)
+                  ),
+                CupertinoDialogAction(child: TextButton(onPressed: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const endScreen(),));
+                }, child: const Text("No"),
+                )
+                )
+                ],
+              ),
+              );
+              };
               },
               child: ValueListenableBuilder<int>(
                 valueListenable: currentAnswerIndex,
@@ -148,8 +168,27 @@ class _QuizState extends State<Quiz> {
                   currentAnswerIndex.value++;
                 }
                 else{
-                  currentAnswerIndex.value = 0;
-                  currentQuestionIndex.value= 0;
+                  showDialog(
+                    context: context,
+                    builder: (context) => CupertinoAlertDialog(
+                      title: Text("Congratulations! Your Point : ${point.value}"),
+                      content: const Text("Do you want to continue ? "),
+                      actions: [
+                        CupertinoDialogAction(child: TextButton(onPressed: (){
+                          currentQuestionIndex.value = 0;
+                          currentAnswerIndex.value += 1;
+                          point.value = 0;
+                          Navigator.of(context).pop();
+                        }, child: const Text("Yes"),)
+                        ),
+                        CupertinoDialogAction(child: TextButton(onPressed: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const endScreen(),));
+                        }, child: const Text("No"),
+                        )
+                        )
+                      ],
+                    ),
+                  );
                 }
 
               },
