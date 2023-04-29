@@ -127,7 +127,7 @@ class _QuizState extends State<Quiz> {
                   }, child: const Text("Yes"),)
                   ),
                 CupertinoDialogAction(child: TextButton(onPressed: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const endScreen(),));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const EndScreen(),));
                 }, child: const Text("No"),
                 )
                 )
@@ -182,7 +182,7 @@ class _QuizState extends State<Quiz> {
                         }, child: const Text("Yes"),)
                         ),
                         CupertinoDialogAction(child: TextButton(onPressed: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const endScreen(),));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const EndScreen(),));
                         }, child: const Text("No"),
                         )
                         )

@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
-import 'question_model.dart';
-import 'quiz.dart';
 
-
-
-class endScreen extends StatelessWidget {
-  const endScreen({Key? key}) : super(key: key);
+class EndScreen extends StatelessWidget {
+  const EndScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
 
