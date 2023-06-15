@@ -29,23 +29,25 @@ class _QuizState extends State<Quiz> {
     return Center(
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 180),
-        child: Column(
-          children: [
-            const Text("Welcome to Quiz App",
-              style: TextStyle(fontSize: 24,color: Colors.blue,fontWeight: FontWeight.w500),
-            ),
-            questionWidget(),
-            const SizedBox(height: 10,),
-            answerList(),
-            const SizedBox(height: 20,),
-            ValueListenableBuilder<int>(
-              valueListenable: point,
-              builder: (context, _point, _) {
-                return Text("Puan : $_point",style: const TextStyle(
-                    fontSize: 24,fontWeight: FontWeight.w500,color: Colors.indigo),);
-              }
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const Text("Welcome to Quiz App",
+                style: TextStyle(fontSize: 24,color: Colors.blue,fontWeight: FontWeight.w500),
+              ),
+              questionWidget(),
+              const SizedBox(height: 10,),
+              answerList(),
+              const SizedBox(height: 20,),
+              ValueListenableBuilder<int>(
+                valueListenable: point,
+                builder: (context, _point, _) {
+                  return Text("Puan : $_point",style: const TextStyle(
+                      fontSize: 24,fontWeight: FontWeight.w500,color: Colors.indigo),);
+                }
+              ),
+            ],
+          ),
         ),
       ),
     );

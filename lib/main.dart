@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: _title,
       home: Scaffold(
         appBar: AppBar(title: const Text(_title),),
-        body: Center(child: Quiz()),
+        body: const Center(child: Quiz()),
       )
     );
   }
