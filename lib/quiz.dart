@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:quizApp/constants/strings.dart';
 import 'question_model.dart';
 import 'endScreen.dart';
 
@@ -28,14 +29,19 @@ class _QuizState extends State<Quiz> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Center(
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 180),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const Text("Welcome to Quiz App",
-                style: TextStyle(fontSize: 24,color: Colors.blue,fontWeight: FontWeight.w500),
+              Text(Strings.welcome,
+                style: theme.textTheme.headlineMedium?.copyWith(
+                  color: Colors.blue,
+                  fontSize: 23,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
               questionWidget(),
               const SizedBox(height: 10,),
@@ -44,8 +50,12 @@ class _QuizState extends State<Quiz> {
               ValueListenableBuilder<int>(
                 valueListenable: point,
                 builder: (context, _point, _) {
-                  return Text("Puan : $_point",style: const TextStyle(
-                      fontSize: 24,fontWeight: FontWeight.w500,color: Colors.indigo),);
+                  return Text("Puan : $_point",style: theme.textTheme.headlineMedium?.copyWith(
+                    color: Colors.indigo,
+                    fontSize: 23,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  );
                 }
               ),
             ],

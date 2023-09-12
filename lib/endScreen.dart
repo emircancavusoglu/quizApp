@@ -20,6 +20,7 @@ class EndScreen extends StatelessWidget {
               Navigator.of(context).pop();
             },child: Text(Strings.returnHome,style: theme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.w400,
+              fontSize: 23,
               color: Colors.pink,
             )
             ),
