@@ -6,16 +6,22 @@ class EndScreen extends StatelessWidget {
   const EndScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-
+    final theme = Theme.of(context);
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(Strings.congratulations,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 25,color: Colors.blue),),
+             Text(Strings.congratulations,style: theme.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.w500,
+              color: Colors.blue,
+            )),
             TextButton(onPressed: (){
               Navigator.of(context).pop();
-            },child: const Text(Strings.returnHome,style: TextStyle(fontSize: 23,fontWeight: FontWeight.w400,color: Colors.pink),
+            },child: Text(Strings.returnHome,style: theme.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.w400,
+              color: Colors.pink,
+            )
             ),
             )
           ],
